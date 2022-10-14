@@ -4,11 +4,17 @@ const routes = require("./routes/v1");
 
 const app = express();
 
-// Settings
-app.set("view engine", "ejs");
-app.set("views", path.join(__dirname, "/views"));
+// parse json req body
+app.use(express.json());
 
-// Top Middlewares
+// parse urlencoded request body
+app.use(express.urlencoded({ extended: true }));
+
+// View enginge
+app.set("view engine", "ejs");
+
+// views path
+app.set("views", path.join(__dirname, "/views"));
 
 // v1 Api
 app.use("/v1", routes);
