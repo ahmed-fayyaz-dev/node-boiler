@@ -14,4 +14,3 @@ app.set("views", path.join(__dirname, "/views"));
 app.use("/v1", routes);
 
 module.exports = app;
-sss;
