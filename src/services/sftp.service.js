@@ -1,50 +1,46 @@
 "use strict";
 
 const Client = require("ssh2-sftp-client");
-const { sftpConfig1 } = require("../config/sftpConfig");
-var AdmZip = require("adm-zip");
-
-const sftp = new Client("sftp-client");
-const FILE_NAME_1 = "TOTAL.ZIP";
-let localFile = __dirname + "/" + FILE_NAME_1;
 
 /*
  *download sftp file
  */
-const downloadFile = async () => {
+const downloadFile = async (sftpConfig, fileName, targetPath) => {
+  const sftp = new Client("sftp-client");
+
   if (sftp) {
     console.log("downloading...");
 
-    sftp
-      .connect(sftpConfig1)
-      .then(() => {
-        sftp.get(FILE_NAME_1, localFile).then((file) => {
-          console.log("downloaded", file);
-          // console.log(file);
-
+    return await sftp
+      .connect(sftpConfig)
+      .then(async () => {
+        try {
+          await sftp.get(fileName, targetPath);
+          console.log("downloaded");
           sftp.end();
-          return file;
-        });
+
+          return targetPath;
+        } catch (err) {
+          throw err;
+        }
       })
-      .catch((e) => console.log(e.message));
+      .catch((err) => {
+        throw err;
+      });
   }
 };
 
-const listFiles = async () => {
-  if (sftp) {
-    sftp
-      .list(`/`)
-      .then((data) => {
-        const file = data.find((i) => i.name === FILE_NAME_1);
+module.exports = { downloadFile };
 
-        console.log(file);
-      })
-      .catch((e) => console.log(e.message));
-  }
-};
+// const listFiles = async () => {
+//   if (sftp) {
+//     sftp
+//       .list(`/`)
+//       .then((data) => {
+//         const file = data.find((i) => i.name === FILE_NAME_1);
 
-const closeSftpCon = async () => {
-  if (sftp) sftp.end();
-};
-
-module.exports = { sftp, downloadFile, closeSftpCon };
+//         console.log(file);
+//       })
+//       .catch((e) => console.log(e.message));
+//   }
+// };

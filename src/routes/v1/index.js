@@ -1,5 +1,5 @@
 const express = require("express");
-const userRoute = require("./users");
+// const userRoute = require("./users");
 const rootRoute = require("./root");
 const feedRoute = require("./feed");
 const config = require("../../config/config");
@@ -10,10 +10,6 @@ const defaultRoutes = [
   {
     path: "/",
     route: rootRoute,
-  },
-  {
-    path: "/users",
-    route: userRoute,
   },
   {
     path: "/feed",
