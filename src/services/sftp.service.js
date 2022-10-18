@@ -7,6 +7,7 @@ const Client = require("ssh2-sftp-client");
  */
 const downloadFile = async (sftpConfig, fileName, targetPath) => {
   const sftp = new Client("sftp-client");
+  const targetPathFull = targetPath + "/" + fileName;
 
   if (sftp) {
     console.log("downloading...");
@@ -15,11 +16,11 @@ const downloadFile = async (sftpConfig, fileName, targetPath) => {
       .connect(sftpConfig)
       .then(async () => {
         try {
-          await sftp.get(fileName, targetPath);
+          await sftp.get(fileName, targetPathFull);
           console.log("downloaded");
           sftp.end();
 
-          return targetPath;
+          return targetPathFull;
         } catch (err) {
           throw err;
         }

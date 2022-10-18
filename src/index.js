@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 const app = require("./app");
 const sql = require("mssql");
 // const sql = require("mssql/msnodesqlv8");
